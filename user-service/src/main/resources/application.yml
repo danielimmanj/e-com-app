@@ -1,0 +1,40 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eCommerce
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: user_service  # Specify the schema for this microservice
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: user_service  # Ensure Hibernate operates in this schema
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+#    prefer-ip-address: true
+
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: user-service-group
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
