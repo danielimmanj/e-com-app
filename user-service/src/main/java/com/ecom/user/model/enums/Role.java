@@ -1,4 +1,4 @@
-package com.ecom.user.service;
+package com.ecom.user.model.enums;
 
 public enum Role {
     ADMIN,

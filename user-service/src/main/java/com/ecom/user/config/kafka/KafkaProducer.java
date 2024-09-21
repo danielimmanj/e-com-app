@@ -1,5 +1,6 @@
-package com.ecom.user.service;
+package com.ecom.user.config.kafka;
 
+import com.ecom.user.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -8,10 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaProducer {
 
-    private final KafkaTemplate<String, UserRegisteredEvent> kafkaTemplate;
+    private final KafkaTemplate<String, EventDto> kafkaTemplate;
     private static final String TOPIC = "user-registered";
 
-    public void sendUserRegisteredEvent(UserRegisteredEvent event) {
+    public void sendUserRegisteredEvent(EventDto event) {
         kafkaTemplate.send(TOPIC, event);
     }
 }

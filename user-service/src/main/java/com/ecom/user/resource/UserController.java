@@ -1,5 +1,7 @@
-package com.ecom.user.service;
+package com.ecom.user.resource;
 
+import com.ecom.user.model.User;
+import com.ecom.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

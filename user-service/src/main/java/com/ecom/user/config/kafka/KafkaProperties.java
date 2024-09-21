@@ -1,4 +1,4 @@
-package com.ecom.user.service;
+package com.ecom.user.config.kafka;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

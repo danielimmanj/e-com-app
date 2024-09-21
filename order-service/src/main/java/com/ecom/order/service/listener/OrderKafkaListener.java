@@ -1,6 +1,6 @@
 package com.ecom.order.service.listener;
 
-import com.ecom.order.dto.UserRegisteredEvent;
+import com.ecom.order.dto.EventDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class OrderKafkaListener {
 
     @KafkaListener(topics = "user-registered", groupId = "order-service-group", containerFactory = "listenerContainerFactory")
-    public void handleUserRegisteredEvent(UserRegisteredEvent event) {
+    public void handleUserRegisteredEvent(EventDto event) {
         log.info("Received User Registered Event for user: {}", event);
     }
 }

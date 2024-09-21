@@ -1,6 +1,6 @@
 package com.ecom.order.config.kafka;
 
-import com.ecom.order.dto.UserRegisteredEvent;
+import com.ecom.order.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -28,7 +28,7 @@ public class OrderKafkaConfig {
     private final KafkaProperties kafkaProperties;
 
     @Bean
-    public ProducerFactory<String, UserRegisteredEvent> producerFactory() {
+    public ProducerFactory<String, EventDto> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -37,12 +37,12 @@ public class OrderKafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UserRegisteredEvent> kafkaTemplate() {
+    public KafkaTemplate<String, EventDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public ConsumerFactory<String, UserRegisteredEvent> consumerFactory() {
+    public ConsumerFactory<String, EventDto> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         config.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getConsumerGroupId());
@@ -53,9 +53,9 @@ public class OrderKafkaConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UserRegisteredEvent> listenerContainerFactory(
-            ConsumerFactory<String, UserRegisteredEvent> consumerFactory) {
-        ConcurrentKafkaListenerContainerFactory<String, UserRegisteredEvent> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, EventDto> listenerContainerFactory(
+            ConsumerFactory<String, EventDto> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, EventDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;

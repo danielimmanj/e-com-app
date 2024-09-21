@@ -1,5 +1,6 @@
-package com.ecom.user.service;
+package com.ecom.user.model;
 
+import com.ecom.user.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
