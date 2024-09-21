@@ -20,7 +20,7 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
-public class KafkaConfig {
+public class UserKafkaConfig {
 
     @Bean
     public ProducerFactory<String, UserRegisteredEvent> producerFactory() {
