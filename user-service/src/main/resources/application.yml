@@ -19,14 +19,14 @@ spring:
       hibernate:
         default_schema: user_service  # Ensure Hibernate operates in this schema
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/
-#    fetch-registry: true
-#    register-with-eureka: true
-#  instance:
-#    prefer-ip-address: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
 
 kafka:
   bootstrap-servers: localhost:9092
