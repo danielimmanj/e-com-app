@@ -1,4 +1,4 @@
-package com.ecom.order.service;
+package com.ecom.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.SerializationException;
@@ -6,7 +6,7 @@ import org.apache.kafka.common.serialization.Deserializer;
 
 import java.io.IOException;
 
-public class CustomUserRegisteredEventDeserializer implements Deserializer<UserRegisteredEvent> {
+public class ConsumerDeserializer implements Deserializer<UserRegisteredEvent> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -18,4 +18,3 @@ public class CustomUserRegisteredEventDeserializer implements Deserializer<UserR
         }
     }
 }
-
