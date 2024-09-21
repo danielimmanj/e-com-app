@@ -1,4 +1,4 @@
-package com.ecom.order.service;
+package com.ecom.order.resource;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

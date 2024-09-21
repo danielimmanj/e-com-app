@@ -1,5 +1,6 @@
-package com.ecom.order.service;
+package com.ecom.order.model;
 
+import com.ecom.order.model.enums.OrderStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

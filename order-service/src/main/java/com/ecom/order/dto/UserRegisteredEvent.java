@@ -1,4 +1,4 @@
-package com.ecom.order.service;
+package com.ecom.order.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

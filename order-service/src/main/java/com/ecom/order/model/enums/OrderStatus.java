@@ -1,4 +1,4 @@
-package com.ecom.order.service;
+package com.ecom.order.model.enums;
 
 public enum OrderStatus {
     PENDING,

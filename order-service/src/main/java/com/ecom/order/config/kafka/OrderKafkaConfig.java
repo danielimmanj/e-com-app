@@ -1,5 +1,6 @@
-package com.ecom.order.service;
+package com.ecom.order.config.kafka;
 
+import com.ecom.order.dto.UserRegisteredEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

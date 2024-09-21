@@ -1,5 +1,6 @@
-package com.ecom.order.service;
+package com.ecom.order.config.kafka;
 
+import com.ecom.order.dto.UserRegisteredEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
