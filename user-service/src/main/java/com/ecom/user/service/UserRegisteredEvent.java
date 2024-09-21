@@ -1,4 +1,4 @@
-package com.ecom.user_service;
+package com.ecom.user.service;
 
 import lombok.Data;
 import java.util.UUID;
