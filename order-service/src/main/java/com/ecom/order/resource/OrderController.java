@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/orders")
+@RequestMapping("/orders")
 public class OrderController {
 
     private final RestTemplate restTemplate;
@@ -18,7 +18,7 @@ public class OrderController {
     @GetMapping("/user/{mail}")
     public ResponseEntity<Object> getUserDetails(@PathVariable String mail) {
         // Calling User Service via Eureka discovery
-        Object user = restTemplate.getForObject("http://user-service/api/v1/users/" + mail, Object.class);
+        Object user = restTemplate.getForObject("http://user-service/users/" + mail, Object.class);
         return ResponseEntity.ok(user);
     }
 }

@@ -1,0 +1,27 @@
+server:
+  port: 8888 # API Gateway port
+
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE  # User service running on port 8081
+          predicates:
+            - Path=/users/**
+        - id: order-service
+          uri: lb://ORDER-SERVICE  # Order service running on port 8082
+          predicates:
+            - Path=/orders/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
