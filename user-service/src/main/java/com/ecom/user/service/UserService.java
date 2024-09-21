@@ -22,4 +22,8 @@ public class UserService {
         kafkaProducer.sendUserRegisteredEvent(event);
         return savedUser;
     }
+
+    public User getUserByMail(String mail) {
+        return userRepository.findByEmail(mail).orElseThrow();
+    }
 }

@@ -16,4 +16,9 @@ public class UserController {
         User savedUser = userService.registerUser(user);
         return ResponseEntity.ok(savedUser);
     }
+
+    @GetMapping("/{mail}")
+    public ResponseEntity<User> getUserByMail(@PathVariable("mail") String mail) {
+        return ResponseEntity.ok(userService.getUserByMail(mail));
+    }
 }

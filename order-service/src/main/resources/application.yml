@@ -1,0 +1,40 @@
+server:
+  port: 8082  # Set the port for the order service
+
+spring:
+  application:
+    name: order-service  # Name of the order service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eCommerce
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: order_service  # Specify the schema for this microservice
+  jpa:
+    hibernate:
+      ddl-auto: update  # Automatically update the schema
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: order_service  # Ensure Hibernate operates in the order_service schema
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # Eureka server URL
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+kafka:
+  bootstrap-servers: localhost:9092  # Kafka server address
+  consumer:
+    group-id: order-service-group  # Group ID for consuming Kafka messages in the order service
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
