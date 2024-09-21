@@ -18,14 +18,18 @@ public class UserService {
 
     @Transactional
     public User registerUser(User user) {
-        User savedUser = userRepository.save(user);
-        // Produce Kafka event
-        EventDto event = new EventDto();
-        event.setUserId(savedUser.getId());
-        event.setUsername(savedUser.getUsername());
-        event.setEmail(savedUser.getEmail());
-        kafkaProducer.sendUserRegisteredEvent(event);
-        return savedUser;
+        try {
+            User savedUser = userRepository.save(user);
+            // Produce Kafka event
+            EventDto event = new EventDto();
+            event.setUserId(savedUser.getId());
+            event.setUsername(savedUser.getUsername());
+            event.setEmail(savedUser.getEmail());
+            kafkaProducer.sendUserRegisteredEvent(event);
+            return savedUser;
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @CircuitBreaker(name = "userService", fallbackMethod = "fallbackGetUserByMail")
