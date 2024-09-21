@@ -29,12 +29,14 @@ eureka:
     prefer-ip-address: true
 
 kafka:
-  bootstrap-servers: localhost:9092  # Kafka server address
+  bootstrap-servers: localhost:9092
   consumer:
     group-id: order-service-group  # Group ID for consuming Kafka messages in the order service
     auto-offset-reset: earliest
     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+      spring.json.trusted.packages: '*'  # Allow all packages for deserialization (adjust as needed)
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

@@ -1,7 +1,8 @@
-package com.ecom.user.service;
+package com.ecom.order.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
 import java.util.UUID;
 
 @Data
