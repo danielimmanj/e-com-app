@@ -1,5 +1,5 @@
 server:
-  port: 8082  # Set the port for the order service
+  port: 8084  # Set the port for the order service
 
 spring:
   application:

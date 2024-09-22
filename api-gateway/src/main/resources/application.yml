@@ -1,5 +1,5 @@
 server:
-  port: 8888 # API Gateway port
+  port: 8082 # API Gateway port
 
 spring:
   application:
