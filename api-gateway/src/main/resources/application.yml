@@ -6,6 +6,21 @@ spring:
     name: api-gateway
   main:
     web-application-type: reactive
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: api-gateway
+            client-secret: D8iCxn9sNXH1uLdL8ExV0IDXCPd98V8J
+            authorization-grant-type: client_credentials
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/eCommerce
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/eCommerce  # Keycloak Realm URL
   cloud:
     gateway:
       routes:
