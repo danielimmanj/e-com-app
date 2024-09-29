@@ -1,4 +1,4 @@
-package com.ecom.product.service;
+package com.ecom.product.business.category.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

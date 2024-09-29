@@ -1,4 +1,4 @@
-package com.ecom.inventory.service;
+package com.ecom.inventory.business.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
