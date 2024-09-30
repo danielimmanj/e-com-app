@@ -16,7 +16,7 @@ public class ConsumerDeserializer implements Deserializer<EventDto<?>> {
     private Class<?> typeClass;
 
     public ConsumerDeserializer(Class<?> typeClass) {
-        this.typeClass = Inventory.class;
+        this.typeClass = typeClass;
     }
 
     @Override

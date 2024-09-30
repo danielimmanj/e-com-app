@@ -1,5 +1,6 @@
 package com.ecom.inventory.common.config.kafka;
 
+import com.ecom.inventory.business.dto.InventoryDto;
 import com.ecom.inventory.common.config.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -12,7 +13,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.core.*;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -48,7 +53,9 @@ public class InventoryKafkaConfig {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, customKafkaProperties.getTrustedPackages());
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerDeserializer.class);
-        return new DefaultKafkaConsumerFactory<>(config);
+        config.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, Boolean.FALSE);
+        return new DefaultKafkaConsumerFactory<>(config,
+                new StringDeserializer(), new ConsumerDeserializer(InventoryDto.class));
     }
 
     @Bean
