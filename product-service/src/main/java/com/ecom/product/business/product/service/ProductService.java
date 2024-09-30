@@ -3,13 +3,16 @@ package com.ecom.product.business.product.service;
 import com.ecom.product.business.product.model.Product;
 import com.ecom.product.business.product.repository.ProductRepository;
 import com.ecom.product.common.config.dto.EventDto;
+import com.ecom.product.common.config.dto.InventoryDto;
 import com.ecom.product.common.config.kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -31,9 +34,17 @@ public class ProductService {
 
     public Product createProduct(Product product) {
         Product productEntity = productRepository.save(product);
-        EventDto<Product> event = EventDto.<Product>builder()
-                .data(product)
+        InventoryDto inventoryDto = InventoryDto.builder()
+                .productId(productEntity.getId())
+                .productPrice(productEntity.getPrice())
+                .productName(productEntity.getName())
+                .quantity(10)
+                .warehouseLocation("India")
                 .build();
+        EventDto<InventoryDto> event = EventDto.<InventoryDto>builder()
+                .data(inventoryDto)
+                .build();
+        log.info("Event data - {}", event);
         kafkaProducer.sendEvent(KafkaProducer.PRODUCT_CREATED_TOPIC, event);
         return productEntity;
     }
