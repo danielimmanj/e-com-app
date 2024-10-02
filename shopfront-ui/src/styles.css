@@ -2,3 +2,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  --primary-bg-color: white;
+  --primary-text-color: black;
+}
+
+html.dark {
+  --primary-bg-color: #1a202c;
+  --primary-text-color: white;
+}
+
+body {
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+}

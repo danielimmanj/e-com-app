@@ -1,47 +1,62 @@
-<header class="bg-white shadow-md fixed w-full z-50">
+<header class="bg-white dark:bg-gray-900 shadow-md fixed w-full z-50 transition-colors duration-300">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <!-- Logo -->
     <div class="flex items-center">
-      <b>Exclusive</b>
+      <b class="text-gray-900 dark:text-white">Exclusive</b>
     </div>
 
     <!-- Navigation Links -->
     <nav class="hidden md:flex space-x-8">
-      <a href="/home" routerLink="/home" class="text-gray-700 hover:text-blue-500">Home</a>
-      <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
-      <a href="#" class="text-gray-700 hover:text-blue-500">About</a>
-      <a href="/sign-up" routerLink="/sign-up" class="text-gray-700 hover:text-blue-500">Sign Up</a>
+      <a href="/home" routerLink="/home" class="text-gray-700 dark:text-gray-200 hover:text-blue-500">Home</a>
+      <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-blue-500">Contact</a>
+      <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-blue-500">About</a>
+      <a href="/sign-up" routerLink="/sign-up" class="text-gray-700 dark:text-gray-200 hover:text-blue-500">Sign Up</a>
     </nav>
 
     <!-- Search Bar -->
     <div class="flex items-center space-x-4">
       <input type="text" placeholder="Search products"
-        class="border rounded-lg px-4 py-2 w-64 focus:outline-none focus:border-blue-500">
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        class="border rounded-lg px-4 py-2 w-64 focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-600">
+      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
         Search
       </button>
     </div>
 
-    <!-- Icons: Wishlist & Cart -->
+    <!-- Icons: Wishlist, Cart, and Dark Mode Toggle -->
     <div class="flex items-center space-x-6">
-      <a href="#" class="flex items-center text-gray-700 hover:text-blue-500">
+      <a href="#" class="flex items-center text-gray-700 dark:text-gray-200 hover:text-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.95l1.318-1.632a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-7.682a4.5 4.5 0 010-6.364z" />
         </svg>
       </a>
-      <a href="#" class="relative">
+      <a href="#" class="relative text-gray-700 dark:text-gray-200">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M3 3h2l.34 2M7 13h10l3.6-7H5.34m-2.7 0l.38 2m2.1 8a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm12 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
         </svg>
         <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">2</span>
       </a>
+
+      <!-- Dark Mode Toggle Button -->
+      <button (click)="toggleTheme()" class="text-gray-700 dark:text-gray-200">
+        <svg *ngIf="!isDarkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 3v1m0 16v1m8.464-8.464h1M3 12h1m14.95-7.071l.707.707M5.636 18.364l.707.707m12.728 0l-.707.707M5.636 5.636l-.707.707" />
+        </svg>
+        <svg *ngIf="isDarkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 3v1m0 16v1m8.464-8.464h1M3 12h1m14.95-7.071l.707.707M5.636 18.364l.707.707m12.728 0l-.707.707M5.636 5.636l-.707.707" />
+        </svg>
+      </button>
     </div>
   </div>
+
   <!-- Mobile Navigation -->
   <div class="md:hidden px-4 py-3 flex justify-between">
-    <button class="text-gray-700">Menu</button>
-    <button class="text-gray-700">Cart</button>
+    <button class="text-gray-700 dark:text-gray-200">Menu</button>
+    <button class="text-gray-700 dark:text-gray-200">Cart</button>
   </div>
 </header>
