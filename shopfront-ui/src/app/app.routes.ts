@@ -9,22 +9,26 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () =>
-      import('./home/home.component').then((m) => m.HomeComponent),
+      import('./components/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'login',
     loadComponent: () =>
-      import('./login/login.component').then((m) => m.LoginComponent),
+      import('./components/login/login.component').then(
+        (m) => m.LoginComponent,
+      ),
   },
   {
     path: 'sign-up',
     loadComponent: () =>
-      import('./sign-up/sign-up.component').then((m) => m.SignUpComponent),
+      import('./components/sign-up/sign-up.component').then(
+        (m) => m.SignUpComponent,
+      ),
   },
   {
     path: 'products',
     loadComponent: () =>
-      import('./product-list/product-list.component').then(
+      import('./components/product-list/product-list.component').then(
         (m) => m.ProductListComponent,
       ),
   },
