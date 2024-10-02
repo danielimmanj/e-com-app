@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../theme.service';
 
 @Component({
   selector: 'app-header',
@@ -9,28 +10,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
   isDarkMode = false;
 
+  constructor(private themeService: ThemeService) {}
+
   ngOnInit(): void {
-    // Check localStorage for the theme preference on component initialization
-    const savedTheme = localStorage.getItem('theme');
-    this.isDarkMode = savedTheme === 'dark';
-    this.applyTheme();
+    this.isDarkMode = this.themeService.isDarkMode();
   }
 
   toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    this.applyTheme();
-  }
-
-  applyTheme() {
-    if (this.isDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    this.themeService.toggleTheme();
+    this.isDarkMode = this.themeService.isDarkMode();
   }
 }
