@@ -1,0 +1,49 @@
+<header class="bg-white shadow-md fixed w-full z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center">
+      <!-- <img src="assets/logo.png" alt="Shop Logo" class="h-10 w-auto"> -->
+      <b>Exclusive</b>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex space-x-8">
+      <a href="#" class="text-gray-700 hover:text-blue-500">Home</a>
+      <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
+      <a href="#" class="text-gray-700 hover:text-blue-500">About</a>
+      <a href="#" class="text-gray-700 hover:text-blue-500">Sign Up</a>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="flex items-center space-x-4">
+      <input type="text" placeholder="Search products"
+        class="border rounded-lg px-4 py-2 w-64 focus:outline-none focus:border-blue-500">
+      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        Search
+      </button>
+    </div>
+
+    <!-- Icons: Wishlist & Cart -->
+    <div class="flex items-center space-x-6">
+      <a href="#" class="flex items-center text-gray-700 hover:text-blue-500">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.95l1.318-1.632a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-7.682a4.5 4.5 0 010-6.364z" />
+        </svg>
+      </a>
+      <a href="#" class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 3h2l.34 2M7 13h10l3.6-7H5.34m-2.7 0l.38 2m2.1 8a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm12 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+        </svg>
+        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">2</span>
+      </a>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden px-4 py-3 flex justify-between">
+      <button class="text-gray-700">Menu</button>
+      <button class="text-gray-700">Cart</button>
+    </div>
+  </div>
+</header>
