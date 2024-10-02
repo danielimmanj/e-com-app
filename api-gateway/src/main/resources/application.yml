@@ -24,6 +24,7 @@ spring:
   cloud:
     gateway:
       routes:
+        # Route for User Service
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -33,6 +34,8 @@ spring:
               args:
                 name: userServiceCircuitBreaker
                 fallbackUri: forward:/fallback/user-service
+
+        # Route for Order Service
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
@@ -43,6 +46,50 @@ spring:
                 name: orderServiceCircuitBreaker
                 fallbackUri: forward:/fallback/order-service
 
+        # Route for Inventory Service
+        - id: inventory-service
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/inventory/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: inventoryServiceCircuitBreaker
+                fallbackUri: forward:/fallback/inventory-service
+
+        # Route for Product Service
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/products/**, /categories/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productServiceCircuitBreaker
+                fallbackUri: forward:/fallback/product-service
+
+        # Route for Shipping Service
+        - id: shipping-service
+          uri: lb://SHIPPING-SERVICE
+          predicates:
+            - Path=/shipping/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: shippingServiceCircuitBreaker
+                fallbackUri: forward:/fallback/shipping-service
+
+        # Route for Payment Service
+        - id: payment-service
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/payments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: paymentServiceCircuitBreaker
+                fallbackUri: forward:/fallback/payment-service
+
   resilience4j:
     circuitbreaker:
       instances:
@@ -51,7 +98,32 @@ spring:
           minimum-number-of-calls: 5
           failure-rate-threshold: 50
           wait-duration-in-open-state: 10000
+
         orderServiceCircuitBreaker:
+          sliding-window-size: 10
+          minimum-number-of-calls: 5
+          failure-rate-threshold: 50
+          wait-duration-in-open-state: 10000
+
+        inventoryServiceCircuitBreaker:
+          sliding-window-size: 10
+          minimum-number-of-calls: 5
+          failure-rate-threshold: 50
+          wait-duration-in-open-state: 10000
+
+        productServiceCircuitBreaker:
+          sliding-window-size: 10
+          minimum-number-of-calls: 5
+          failure-rate-threshold: 50
+          wait-duration-in-open-state: 10000
+
+        shippingServiceCircuitBreaker:
+          sliding-window-size: 10
+          minimum-number-of-calls: 5
+          failure-rate-threshold: 50
+          wait-duration-in-open-state: 10000
+
+        paymentServiceCircuitBreaker:
           sliding-window-size: 10
           minimum-number-of-calls: 5
           failure-rate-threshold: 50
