@@ -1,2 +1,8 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
+
+<!-- Add padding-top equal to or greater than the height of the header -->
+<div class="pt-20"> <!-- Adjust pt-20 based on your header height -->
+    <router-outlet></router-outlet> <!-- This will load the routed components here -->
+</div>
+
+<app-footer></app-footer>

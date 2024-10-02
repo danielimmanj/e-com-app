@@ -2,16 +2,15 @@
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <!-- Logo -->
     <div class="flex items-center">
-      <!-- <img src="assets/logo.png" alt="Shop Logo" class="h-10 w-auto"> -->
       <b>Exclusive</b>
     </div>
 
     <!-- Navigation Links -->
     <nav class="hidden md:flex space-x-8">
-      <a href="#" class="text-gray-700 hover:text-blue-500">Home</a>
+      <a href="/home" routerLink="/home" class="text-gray-700 hover:text-blue-500">Home</a>
       <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
       <a href="#" class="text-gray-700 hover:text-blue-500">About</a>
-      <a href="#" class="text-gray-700 hover:text-blue-500">Sign Up</a>
+      <a href="/sign-up" routerLink="/sign-up" class="text-gray-700 hover:text-blue-500">Sign Up</a>
     </nav>
 
     <!-- Search Bar -->
@@ -39,11 +38,10 @@
         <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">2</span>
       </a>
     </div>
-
-    <!-- Mobile Navigation -->
-    <div class="md:hidden px-4 py-3 flex justify-between">
-      <button class="text-gray-700">Menu</button>
-      <button class="text-gray-700">Cart</button>
-    </div>
+  </div>
+  <!-- Mobile Navigation -->
+  <div class="md:hidden px-4 py-3 flex justify-between">
+    <button class="text-gray-700">Menu</button>
+    <button class="text-gray-700">Cart</button>
   </div>
 </header>
