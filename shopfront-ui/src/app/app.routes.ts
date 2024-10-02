@@ -1,11 +1,39 @@
 import { Routes } from '@angular/router';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-    { path: 'sign-up', component: SignUpComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full'},
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'sign-up',
+    loadComponent: () =>
+      import('./sign-up/sign-up.component').then((m) => m.SignUpComponent),
+  },
+  {
+    path: 'products',
+    loadComponent: () =>
+      import('./product-list/product-list.component').then(
+        (m) => m.ProductListComponent,
+      ),
+  },
+  //   {
+  //     path: 'about',
+  //     loadComponent: () => import('./components/about/about.component').then(m => m.AboutComponent),
+  //   },
+  //   {
+  //     path: 'contact',
+  //     loadComponent: () => import('./components/contact/contact.component').then(m => m.ContactComponent),
+  //   },
 ];
