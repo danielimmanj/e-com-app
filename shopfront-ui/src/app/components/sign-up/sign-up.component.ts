@@ -9,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sign-up.component.css'],
 })
 export class SignUpComponent implements OnInit {
-  selectedImage: string = '';
-  currentCategory: string = 'signup'; // Default category
+  selectedImage = '';
+  currentCategory = 'signup'; // Default category
 
   // Unsplash API endpoint and your access key
   private readonly unsplashApiUrl = 'https://api.unsplash.com/photos/random';
@@ -44,7 +44,7 @@ export class SignUpComponent implements OnInit {
   private getCategoryQuery(category: string): string {
     switch (category) {
       case 'signup':
-        return 'signup'; // Keywords for signup
+        return 'register'; // Keywords for signup
       case 'login':
         return 'login'; // Keywords for login
       case 'shopping':
