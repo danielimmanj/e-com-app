@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaProducer {
 
-    private final KafkaTemplate<String, EventDto> kafkaTemplate;
     private static final String TOPIC = "user-registered";
+    private final KafkaTemplate<String, EventDto> kafkaTemplate;
 
     public void sendUserRegisteredEvent(EventDto event) {
         kafkaTemplate.send(TOPIC, event);

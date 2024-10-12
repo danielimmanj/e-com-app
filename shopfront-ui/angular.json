@@ -16,7 +16,9 @@
             "outputPath": "dist/shopfront-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -24,8 +26,10 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css",
-          "node_modules/swiper/swiper-bundle.min.css"],
+            "styles": [
+              "src/styles.css",
+              "node_modules/swiper/swiper-bundle.min.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -76,7 +80,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -84,20 +91,27 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "src/styles.css"
+            ],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

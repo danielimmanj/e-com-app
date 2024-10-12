@@ -2,10 +2,9 @@ package com.ecom.common.config.kafka;
 
 import com.ecom.common.config.dto.EventDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.apache.commons.lang.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
-
-import java.io.IOException;
 
 public class ConsumerDeserializer<T> implements Deserializer<EventDto<T>> {
 
