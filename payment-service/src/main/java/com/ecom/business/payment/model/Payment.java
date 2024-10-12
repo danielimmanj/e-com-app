@@ -1,4 +1,4 @@
-package com.ecom.payment.service;
+package com.ecom.business.payment.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
