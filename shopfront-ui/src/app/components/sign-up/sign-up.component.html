@@ -1,8 +1,8 @@
 <div class="flex flex-col md:flex-row h-screen">
   <!-- Left Image Section -->
   <div
-    class="flex-1 bg-cover bg-center"
     [style.background-image]="'url(' + selectedImage + ')'"
+    class="flex-1 bg-cover bg-center"
   ></div>
 
   <!-- Right Form Section -->
@@ -18,52 +18,52 @@
       <form>
         <div class="mb-4">
           <label
-            for="name"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Name</label
+            for="name"
+          >Name</label
           >
           <input
-            type="text"
+            class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-gray-200"
             id="name"
             name="name"
-            required
-            class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-gray-200"
             placeholder="Enter your name"
+            required
+            type="text"
           />
         </div>
         <div class="mb-4">
           <label
-            for="email"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Email</label
+            for="email"
+          >Email</label
           >
           <input
-            type="email"
+            class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-gray-200"
             id="email"
             name="email"
-            required
-            class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-gray-200"
             placeholder="Enter your email"
+            required
+            type="email"
           />
         </div>
         <div class="mb-4">
           <label
-            for="password"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Password</label
+            for="password"
+          >Password</label
           >
           <input
-            type="password"
+            class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-gray-200"
             id="password"
             name="password"
-            required
-            class="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 dark:bg-gray-700 dark:text-gray-200"
             placeholder="Enter your password"
+            required
+            type="password"
           />
         </div>
         <button
-          type="submit"
           class="w-full bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+          type="submit"
         >
           Sign Up
         </button>
@@ -71,9 +71,9 @@
       <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-300">
         Already have an account?
         <a
-          href="/login"
           class="text-blue-500 dark:text-blue-400 hover:underline"
-          >Log in</a
+          href="/login"
+        >Log in</a
         >
       </p>
     </div>

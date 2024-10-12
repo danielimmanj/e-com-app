@@ -28,17 +28,17 @@ public class OrderKafkaConfig {
     private final KafkaProperties kafkaProperties;
 
     @Bean
+    public KafkaTemplate<String, EventDto> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
     public ProducerFactory<String, EventDto> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(config);
-    }
-
-    @Bean
-    public KafkaTemplate<String, EventDto> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean

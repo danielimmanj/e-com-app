@@ -1,6 +1,6 @@
-package com.ecom.inventory.common.config.kafka;
+package com.ecom.common.config.kafka;
 
-import com.ecom.inventory.common.config.dto.EventDto;
+import com.ecom.common.config.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
