@@ -1,23 +1,9 @@
 server:
-  port: 8086  # Set the port for the product service
+  port: 8083
 
 spring:
   application:
-    name: product-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/eCommerce
-    username: postgres
-    password: password
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      schema: product_service  # Specify the schema for this microservice
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        default_schema: product_service  # Set the schema for Hibernate
+    name: security-service
 
 eureka:
   client:
@@ -31,7 +17,7 @@ eureka:
 kafka:
   bootstrap-servers: localhost:9092
   consumer:
-    group-id: product-service-group
+    group-id: security-service-group
     auto-offset-reset: earliest
     properties:
       spring:
@@ -44,7 +30,13 @@ kafka:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
-aws:
-  java:
-    v1:
-      printLocation: true
+keycloak:
+  auth-server-url: http://localhost:8081/realms/eCommerce/protocol/openid-connect
+  client-id: api-gateway
+  client-secret: IQU3cSySrxWH611nd6JQ8g1WK9eIZfhh
+  realm: eCommerce
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.keycloak: DEBUG

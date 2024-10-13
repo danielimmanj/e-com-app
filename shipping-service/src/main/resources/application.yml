@@ -1,5 +1,5 @@
 server:
-  port: 8088  # Set the port for the shipping service
+  port: 8089  # Set the port for the shipping service
 
 spring:
   application:

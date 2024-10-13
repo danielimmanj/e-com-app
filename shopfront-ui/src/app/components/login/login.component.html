@@ -15,7 +15,7 @@
       >
         Log In
       </h2>
-      <form>
+      <form (ngSubmit)="onLoginSubmit()"> <!-- Bind form submission -->
         <div class="mb-4">
           <label
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -29,6 +29,7 @@
             placeholder="Enter your email"
             required
             type="email"
+            [(ngModel)]="email"
           />
         </div>
         <div class="mb-4">
@@ -44,6 +45,7 @@
             placeholder="Enter your password"
             required
             type="password"
+            [(ngModel)]="password"
           />
         </div>
         <button

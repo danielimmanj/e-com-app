@@ -20,10 +20,24 @@ spring:
             issuer-uri: http://localhost:8081/realms/eCommerce
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/eCommerce  # Keycloak Realm URL
+          issuer-uri: http://localhost:8081/realms/eCommerce # Keycloak Realm URL
+
   cloud:
     gateway:
+      default-filters:
+        - TokenRelay # Ensure the access token is relayed to backend services
       routes:
+        # Route for Security Service
+        - id: security-service
+          uri: lb://SECURITY-SERVICE
+          predicates:
+            - Path=/security/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: securityServiceCircuitBreaker
+                fallbackUri: forward:/fallback/security-service
+
         # Route for User Service
         - id: user-service
           uri: lb://USER-SERVICE
@@ -93,6 +107,12 @@ spring:
   resilience4j:
     circuitbreaker:
       instances:
+        securityServiceCircuitBreaker:
+          sliding-window-size: 10
+          minimum-number-of-calls: 5
+          failure-rate-threshold: 50
+          wait-duration-in-open-state: 10000
+
         userServiceCircuitBreaker:
           sliding-window-size: 10
           minimum-number-of-calls: 5
@@ -128,6 +148,11 @@ spring:
           minimum-number-of-calls: 5
           failure-rate-threshold: 50
           wait-duration-in-open-state: 10000
+
+  cors: # CORS configuration
+    allowed-origins: "http://localhost:4200" # Adjust according to your frontend
+    allowed-methods: "*"
+    allowed-headers: "*"
 
 eureka:
   client:
