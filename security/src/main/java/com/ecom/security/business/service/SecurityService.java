@@ -1,6 +1,8 @@
 package com.ecom.security.business.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.ecom.security.common.config.CustomProperties;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,26 +11,22 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class SecurityService {
 
-    private final WebClient webClient;
-    private final String clientId;
-    private final String clientSecret;
-    private final String tokenUrl;
-    private final String logoutUrl;
+    private WebClient webClient;
+    private String clientId;
+    private String clientSecret;
 
-    public SecurityService(
-            @Value("${keycloak.auth-server-url}") String authServerUrl,
-            @Value("${keycloak.client-id}") String clientId,
-            @Value("${keycloak.client-secret}") String clientSecret) {
+    private final CustomProperties properties;
 
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        this.tokenUrl = authServerUrl + "/token";
-        this.logoutUrl = authServerUrl + "/logout";
-
+    @PostConstruct
+    void init() {
+        var keycloak = properties.getSpring().getSecurity().getOauth2().getClient().getRegistration().getKeycloak();
+        clientId = keycloak.getClientId();
+        clientSecret = keycloak.getClientSecret();
         this.webClient = WebClient.builder()
-                .baseUrl(authServerUrl)
+                .baseUrl(keycloak.getAuthServerUrl())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .build();
     }
@@ -65,5 +63,4 @@ public class SecurityService {
                 .map(response -> ResponseEntity.noContent().build()) // Return 204 No Content if successful
                 .onErrorResume(error -> Mono.just(ResponseEntity.badRequest().body("Logout failed: " + error.getMessage())));
     }
-
 }

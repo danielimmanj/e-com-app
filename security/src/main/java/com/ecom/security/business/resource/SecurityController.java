@@ -36,6 +36,4 @@ public class SecurityController {
     public Mono<ResponseEntity<Object>> logout(@RequestParam String refreshToken) {
         return securityService.logout(refreshToken);
     }
-
-
 }
