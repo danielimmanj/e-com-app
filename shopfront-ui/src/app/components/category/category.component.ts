@@ -1,33 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environments';
+import { CategoryModel } from '../../model/category.model';
+import { CommonModule } from '@angular/common';
+import { CategoryService } from '../../services/category/category.service';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
-  categories: string[] = [];
+  categories: CategoryModel[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.fetchCategoriesFromBackend().subscribe(
-      (data: string[]) => {
-        this.categories = data;
-      },
-      (error) => {
-        console.error('Error fetching categories:', error);
-      }
-    );
+    this.loadCategories();
   }
 
-  fetchCategoriesFromBackend(): Observable<string[]> {
-    const apiUrl = `${environment.apiUrl}/categories`;
-    return this.http.get<string[]>(apiUrl);
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (data: CategoryModel[]) => {
+        this.categories = data;
+      },
+      error: (error: unknown) => {
+        console.error('Error fetching categories:', error);
+      },
+      complete: () => {
+        console.log('Category data fetching complete');
+      },
+    });
   }
 }
