@@ -1,7 +1,13 @@
 <div class="flex flex-col">
   <div class="flex mb-5 w-full h-auto">
-    <app-category class="w-1/4 p-4 bg-white dark:bg-gray-800 dark:text-gray-200"></app-category>
+    <app-category
+      class="w-1/4 p-4 bg-white dark:bg-gray-800 dark:text-gray-200"
+      (categorySelected)="onCategorySelected($event)">
+    </app-category>
     <app-sliding-banner class="w-3/4 p-4 bg-white dark:bg-gray-800 dark:text-gray-200"></app-sliding-banner>
   </div>
-  <app-product-list class="p-4 bg-white dark:bg-gray-800 dark:text-gray-200"></app-product-list>
+  <app-product-list
+    [selectedCategoryId]="selectedCategoryId"
+    class="p-4 bg-white dark:bg-gray-800 dark:text-gray-200">
+  </app-product-list>
 </div>

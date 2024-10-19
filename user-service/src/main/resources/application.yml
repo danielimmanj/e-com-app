@@ -1,13 +1,13 @@
 server:
-  port: 8083
+  port: 8084
 
 spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/eCommerce
-    username: postgres
-    password: password
+    url: jdbc:postgresql://localhost:5433/eCommerce
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
     hikari:
       schema: user_service  # Specify the schema for this microservice

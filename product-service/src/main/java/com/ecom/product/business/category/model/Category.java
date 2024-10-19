@@ -16,10 +16,8 @@ public class Category {
 
     @Id
     @GeneratedValue
-    private UUID id;  // UUID for globally unique category identification.
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String name;
-
-    // Getters and Setters
 }
