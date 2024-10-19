@@ -6,8 +6,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
   imports: [],
   templateUrl: './sliding-banner.component.html',
   styleUrl: './sliding-banner.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SlidingBannerComponent {
-
-}
+export class SlidingBannerComponent {}
