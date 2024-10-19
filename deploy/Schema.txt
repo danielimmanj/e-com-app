@@ -1,0 +1,8 @@
+-- Create required SCHEMA
+
+CREATE SCHEMA user_service;
+CREATE SCHEMA order_service;
+CREATE SCHEMA product_service;
+CREATE SCHEMA inventory_service;
+CREATE SCHEMA payment_service;
+CREATE SCHEMA shipping_service;

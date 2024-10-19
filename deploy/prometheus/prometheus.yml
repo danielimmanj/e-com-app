@@ -1,0 +1,44 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  # Scrape configuration for Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Scrape configuration for API Gateway (running on port 8082)
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['localhost:8082']
+
+  # Scrape configuration for User Service (replace with actual host and port)
+  - job_name: 'user-service'
+    static_configs:
+      - targets: ['localhost:8081']  # Replace with actual port if different
+
+  # Scrape configuration for Order Service
+  - job_name: 'order-service'
+    static_configs:
+      - targets: ['localhost:8083']  # Replace with actual port if different
+
+  # Scrape configuration for Inventory Service
+  - job_name: 'inventory-service'
+    static_configs:
+      - targets: ['localhost:8084']  # Replace with actual port if different
+
+  # Scrape configuration for Product Service
+  - job_name: 'product-service'
+    static_configs:
+      - targets: ['localhost:8085']  # Replace with actual port if different
+
+  # Scrape configuration for Shipping Service
+  - job_name: 'shipping-service'
+    static_configs:
+      - targets: ['localhost:8086']  # Replace with actual port if different
+
+  # Scrape configuration for Payment Service
+  - job_name: 'payment-service'
+    static_configs:
+      - targets: ['localhost:8087']  # Replace with actual port if different
+

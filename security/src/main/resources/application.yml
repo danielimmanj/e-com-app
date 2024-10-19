@@ -14,18 +14,18 @@ spring:
       client:
         registration:
           keycloak:
-            realm: eCommerce
-            auth-server-url: http://localhost:8081/realms/eCommerce/protocol/openid-connect
-            client-id: api-gateway
-            client-secret: IQU3cSySrxWH611nd6JQ8g1WK9eIZfhh
+            realm: e-commerce
+            auth-server-url: http://localhost:8081/realms/e-commerce/protocol/openid-connect
+            client-id: frontend
+            client-secret: MY8wq06Es6rsW7pnUYta7dtcbeQsDp8q
             authorization-grant-type: client_credentials
             scope: openid
         provider:
           keycloak:
-            issuer-uri: http://localhost:8081/realms/eCommerce
+            issuer-uri: http://localhost:8081/realms/e-commerce
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/eCommerce
+          issuer-uri: http://localhost:8081/realms/e-commerce
 eureka:
   client:
     service-url:
