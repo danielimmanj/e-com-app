@@ -1,18 +1,3 @@
-<div class="mb-4">
-  <span
-    *ngFor="let category of categories"
-    class="inline-block mr-2 mb-2 px-4 py-2 border rounded cursor-pointer text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700"
-    (click)="onCategoryClick(category)"
-    (keydown.enter)="onCategoryClick(category)"
-    (keydown.space)="onCategoryClick(category)"
-    tabindex="0"
-    role="button"
-    [attr.aria-label]="'Category ' + category"
-  >
-    {{ category }}
-  </span>
-</div>
-
 <div class="product-list">
   <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Featured Products</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
