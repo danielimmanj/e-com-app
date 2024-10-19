@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryModel } from '../../model/category.model';
+import { Category } from '../../model/category.model';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category/category.service';
 
@@ -11,7 +11,7 @@ import { CategoryService } from '../../services/category/category.service';
   styleUrls: ['./category.component.css'],
 })
 export class CategoryComponent implements OnInit {
-  categories: CategoryModel[] = [];
+  categories: Category[] = [];
 
   constructor(private categoryService: CategoryService) {}
 
@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit {
 
   loadCategories(): void {
     this.categoryService.getCategories().subscribe({
-      next: (data: CategoryModel[]) => {
+      next: (data: Category[]) => {
         this.categories = data;
       },
       error: (error: unknown) => {
