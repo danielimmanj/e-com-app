@@ -5,69 +5,62 @@ scrape_configs:
   # Scrape configuration for Prometheus itself
   - job_name: "prometheus"
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["prometheus:9090"]
 
   # Scrape configuration for API Gateway
   - job_name: "api-gateway"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8082"]
+      - targets: ["172.17.0.1:8082"]
 
   # Scrape configuration for Security Service
   - job_name: "security"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8083"]
+      - targets: ["172.17.0.1:8083"]
 
   # Scrape configuration for User Service
   - job_name: "user-service"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8084"]
+      - targets: ["172.17.0.1:8084"]
 
   # Scrape configuration for Order Service
   - job_name: "order-service"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8085"]
+      - targets: ["172.17.0.1:8085"]
 
   # Scrape configuration for Product Service
   - job_name: "product-service"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8086"]
+      - targets: ["172.17.0.1:8086"]
 
   # Scrape configuration for Inventory Service
   - job_name: "inventory-service"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8087"]
+      - targets: ["172.17.0.1:8087"]
 
   # Scrape configuration for Payment Service
   - job_name: "payment-service"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8088"]
+      - targets: ["172.17.0.1:8088"]
 
   # Scrape configuration for Shipping Service
   - job_name: "shipping-service"
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ["localhost:8089"]
-
-  # Scrape configuration for Keycloak
-  - job_name: "keycloak"
-    static_configs:
-      - targets: ["localhost:8081"]
+      - targets: ["172.17.0.1:8089"]
 
   # Scrape configuration for PostgreSQL (eCommerce) using exporter
   - job_name: "postgres-ecommerce"
     static_configs:
-      - targets: ["localhost:9187"]
-
-  # Scrape configuration for Elasticsearch
-  - job_name: "elasticsearch"
-    static_configs:
-      - targets: ["localhost:9200"]
-
-  # Scrape configuration for Logstash monitoring API
-  - job_name: "logstash"
-    static_configs:
-      - targets: ["localhost:9600"]
+      - targets: ["postgres-exporter:9187"]
 
   # Scrape configuration for Grafana
   - job_name: "grafana"
     static_configs:
-      - targets: ["localhost:3000"]
+      - targets: ["grafana:3000"]

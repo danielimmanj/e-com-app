@@ -62,7 +62,11 @@ resilience4j:
         minimumNumberOfCalls: 5
         automaticTransitionFromOpenToHalfOpenEnabled: true
 management:
-  endpoints:
-    web:
-      exposure:
-        include: health,metrics,circuitbreakers,prometheus
+  endpoints.web.exposure.include: health,metrics,circuitbreakers,prometheus,actuator
+  endpoint:
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
