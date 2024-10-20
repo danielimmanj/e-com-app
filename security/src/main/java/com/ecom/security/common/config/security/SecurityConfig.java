@@ -20,7 +20,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/actuator/prometheus/**","/security/login", "security/logout").permitAll() // Allow unauthenticated access to login
+                        .requestMatchers("/actuator/prometheus","/security/login", "security/logout").permitAll() // Allow unauthenticated access to login
                         .anyRequest().authenticated() // Secure all other paths
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

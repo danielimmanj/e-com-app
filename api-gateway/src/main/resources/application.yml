@@ -214,12 +214,18 @@ resilience4j:
         automaticTransitionFromOpenToHalfOpenEnabled: true
 
 management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,circuitbreakers,prometheus, actuator
-  endpoint:
-    prometheus:
-      enabled: true
-  server:
-    port: 8082
+        include: '*'
+    jmx:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
