@@ -8,7 +8,7 @@
 
     <!-- File Appender for saving logs to a file -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/home/daniel/Documents/logs/eCommerce/user-service.log</file>
+        <file>/home/daniel/Documents/logs/eCommerce/product-service.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg [%file:%line] [%method] %mdc %n</pattern>

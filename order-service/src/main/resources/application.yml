@@ -5,9 +5,9 @@ spring:
   application:
     name: order-service  # Name of the order service
   datasource:
-    url: jdbc:postgresql://localhost:5432/eCommerce
-    username: postgres
-    password: password
+    url: jdbc:postgresql://localhost:5433/eCommerce
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
     hikari:
       schema: order_service  # Specify the schema for this microservice
@@ -40,3 +40,21 @@ kafka:
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      orderService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,circuitbreakers,prometheus
