@@ -3,6 +3,7 @@ package com.ecom.security.business.service;
 import com.ecom.security.common.config.CustomProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SecurityService {
 
@@ -32,6 +34,7 @@ public class SecurityService {
     }
 
     public Mono<String> generateAccessToken(String username, String password) {
+        log.info("Token request for {} initiated", username);
         return webClient.post()
                 .uri("/token")
                 .bodyValue("grant_type=password&client_id=" + clientId +

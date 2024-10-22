@@ -91,6 +91,8 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=elastic
     ulimits:
       memlock:
         soft: -1
@@ -106,12 +108,16 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:7.17.4
     container_name: logstash
+    command: logstash -f /usr/share/logstash/pipeline/logstash.conf --log.level debug
+    environment:
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: elastic
     volumes:
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - /home/daniel/Documents/logs/eCommerce:/var/logs/eCommerce
     ports:
-      - "5044:5044"  # Logstash Beats input
-      - "9600:9600"  # Logstash monitoring API
+      - "5044:5044"
+      - "9600:9600"
     networks:
       - e-commerce
 
@@ -121,6 +127,8 @@ services:
     container_name: kibana
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=elastic
     ports:
       - "5601:5601"
     networks:

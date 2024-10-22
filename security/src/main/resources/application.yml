@@ -52,6 +52,7 @@ kafka:
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 logging:
+  file.path: "/home/daniel/Documents/logs/eCommerce/security-service.log"
   level:
     org.springframework.security: DEBUG
     org.springframework.security.web.csrf.CsrfFilter: DEBUG
