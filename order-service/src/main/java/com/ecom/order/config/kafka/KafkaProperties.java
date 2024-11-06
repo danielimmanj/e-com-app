@@ -14,6 +14,9 @@ public class KafkaProperties {
     @Value("${kafka.consumer.group-id}")
     private String consumerGroupId;
 
+    @Value("${kafka.consumer.auto-offset-reset}")
+    private String consumerAutoOffsetReset;
+
     @Value("${kafka.consumer.properties.spring.json.trusted.packages}")
     private String trustedPackages;
 }
