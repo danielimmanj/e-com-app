@@ -1,9 +1,12 @@
 package com.ecom.security.business.service.listener;
 
+import com.ecom.security.business.service.AdminService;
 import com.ecom.security.business.service.SecurityService;
 import com.ecom.security.common.config.dto.EventDto;
 import com.ecom.security.common.config.dto.UserDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,6 +19,7 @@ import reactor.core.publisher.Mono;
 public class SecurityKafkaListener {
 
     private final SecurityService securityService;
+    private final AdminService adminService;
 
     @KafkaListener(topics = "user-registered", groupId = "security-service-group", containerFactory = "listenerContainerFactory")
     public void handleUserRegisteredEvent(EventDto event) {
@@ -42,14 +46,18 @@ public class SecurityKafkaListener {
                                 .build()
                 )
                 .build();
-        securityService.generateAdminToken("admin", "admin")
+        adminService.generateAdminToken("admin", "admin")
                 .flatMap(token -> {
                     // Ensure the token is non-empty before proceeding
-                    if (token.isEmpty()) {
+                    if (Objects.isNull(token)) {
                         return Mono.error(new IllegalArgumentException("Failed to obtain access token"));
                     }
                     // Call createUser method with the obtained access token and the user DTO
-                    return securityService.createUser(token, userDto);
+                    try {
+                        return adminService.createUser(token.getAccessToken(), userDto);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
                 })
                 .subscribe(response -> {
                     // Handle the response from createUser
