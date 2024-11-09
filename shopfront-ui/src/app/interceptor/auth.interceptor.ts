@@ -20,7 +20,9 @@ export const authInterceptor: HttpInterceptorFn = (
   // Clone the request and add the token to the headers if it exists
   console.log('Gotcha', req);
   const authReq =
-    !req.url.startsWith('https://api.unsplash.com') && token
+    !req.url.startsWith('https://api.unsplash.com') &&
+    !req.url.includes('/security/') &&
+    token
       ? req.clone({
           setHeaders: {
             Authorization: `Bearer ${token}`,
