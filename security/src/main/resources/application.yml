@@ -52,7 +52,38 @@ kafka:
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 logging:
+  file.path: "/home/daniel/Documents/logs/eCommerce/security-service.log"
   level:
     org.springframework.security: DEBUG
     org.springframework.security.web.csrf.CsrfFilter: DEBUG
     org.keycloak: DEBUG
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      securityService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    jmx:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true

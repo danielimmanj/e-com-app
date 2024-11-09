@@ -2,12 +2,14 @@ server:
   port: 8088  # Set the port for the payment service
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: payment-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/eCommerce
-    username: postgres
-    password: password
+    url: jdbc:postgresql://localhost:5433/eCommerce
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
     hikari:
       schema: payment_service  # Specify the schema for this microservice
@@ -48,3 +50,26 @@ paypal:
   client:
     id: ${PAYPAL_CLIENT_ID}
     secret: ${PAYPAL_CLIENT_SECRET}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,circuitbreakers,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  server:
+    port: 8088

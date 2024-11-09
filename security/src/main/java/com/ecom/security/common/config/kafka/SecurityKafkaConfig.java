@@ -25,17 +25,17 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 @EnableKafka
 @Configuration
 @RequiredArgsConstructor
-public class ProductKafkaConfig {
+public class SecurityKafkaConfig {
 
     private final CustomKafkaProperties customKafkaProperties;
 
     @Bean
-    public KafkaTemplate<String, EventDto<?>> kafkaTemplate() {
+    public KafkaTemplate<String, EventDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public ProducerFactory<String, EventDto<?>> producerFactory() {
+    public ProducerFactory<String, EventDto> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, customKafkaProperties.getBootstrapServer());
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -44,26 +44,26 @@ public class ProductKafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, EventDto<?>> consumerFactory() {
+    public ConsumerFactory<String, EventDto> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, customKafkaProperties.getBootstrapServer());
         config.put(ConsumerConfig.GROUP_ID_CONFIG, customKafkaProperties.getConsumerGroupId());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, customKafkaProperties.getTrustedPackages());
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, EventDto<?>> listenerContainerFactory(ConsumerFactory<String, EventDto<?>> consumerFactory) {
-        ConcurrentKafkaListenerContainerFactory<String, EventDto<?>> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, EventDto> listenerContainerFactory(ConsumerFactory<String, EventDto> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, EventDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }
 
     @Bean
     public NewTopic productUpdatedTopic() {
-        return TopicBuilder.name("product-updated")
+        return TopicBuilder.name("user-registered")
                 .partitions(1)
                 .replicas(1)
                 .build();

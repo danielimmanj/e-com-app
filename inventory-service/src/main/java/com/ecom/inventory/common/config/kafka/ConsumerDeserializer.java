@@ -1,6 +1,5 @@
 package com.ecom.inventory.common.config.kafka;
 
-import com.ecom.inventory.business.model.Inventory;
 import com.ecom.inventory.common.config.dto.EventDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
