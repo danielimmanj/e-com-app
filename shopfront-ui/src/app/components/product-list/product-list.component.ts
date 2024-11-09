@@ -30,7 +30,7 @@ export class ProductListComponent implements OnInit, OnChanges {
       },
       (error) => {
         console.error('Error fetching products:', error);
-      }
+      },
     );
   }
 
@@ -41,14 +41,16 @@ export class ProductListComponent implements OnInit, OnChanges {
   // Filter products based on the selected category ID
   filterProductsByCategory(): void {
     if (this.selectedCategoryId) {
-      this.productService.getProductsByCategoryId(this.selectedCategoryId).subscribe(
-        (data) => {
-          this.filteredProducts = data;
-        },
-        (error) => {
-          console.error('Error fetching products by category:', error);
-        }
-      );
+      this.productService
+        .getProductsByCategoryId(this.selectedCategoryId)
+        .subscribe(
+          (data) => {
+            this.filteredProducts = data;
+          },
+          (error) => {
+            console.error('Error fetching products by category:', error);
+          },
+        );
     } else {
       this.filteredProducts = this.products; // Show all products if no category is selected
     }
