@@ -44,6 +44,11 @@ public class SecurityKafkaListener {
                                 .impersonate(true)
                                 .manage(true)
                                 .build()
+                ).credentials(List.of(UserDto.CredentialsDto.builder()
+                        .type("password")
+                        .value(event.getPassword())
+                        .temporary(false)
+                        .build())
                 )
                 .build();
         adminService.generateAdminToken("admin", "admin")

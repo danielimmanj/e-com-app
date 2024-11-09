@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../model/user.model';
 import { UserService } from '../../services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -23,7 +24,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -85,6 +87,7 @@ export class SignUpComponent implements OnInit {
       this.userService.signUp(user).subscribe(
         (response) => {
           console.log('User registered successfully:', response);
+          this.router.navigate(['/login']);
         },
         (error) => {
           console.error('Error during signup:', error);

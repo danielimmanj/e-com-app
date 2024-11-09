@@ -1,6 +1,5 @@
 package com.ecom.security.common.config.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +26,8 @@ public class UserDto {
     private List<String> disableableCredentialTypes;
     private List<String> requiredActions;
     private int notBefore;
-    @JsonProperty("access")
     private AccessDto access;
+    private List<CredentialsDto> credentials;
 
     @ToString
     @Builder
@@ -42,6 +41,18 @@ public class UserDto {
         private boolean mapRoles;
         private boolean impersonate;
         private boolean manage;
+    }
+
+    @ToString
+    @Builder
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CredentialsDto {
+        private String type;
+        private String value;
+        private boolean temporary;
     }
 }
 
