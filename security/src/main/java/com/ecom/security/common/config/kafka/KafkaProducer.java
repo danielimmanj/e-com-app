@@ -19,10 +19,10 @@ public class KafkaProducer {
     public static final String CATEGORY_DELETED_TOPIC = "category-deleted";
     public static final String INVENTORY_UPDATED_TOPIC = "inventory-updated";
     @Autowired
-    private final KafkaTemplate<String, EventDto<?>> kafkaTemplate;
+    private final KafkaTemplate<String, EventDto> kafkaTemplate;
 
     // Generic method to send events to any topic
-    public void sendEvent(String topic, EventDto<?> event) {
+    public void sendEvent(String topic, EventDto event) {
         kafkaTemplate.send(topic, event);
     }
 }

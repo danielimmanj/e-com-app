@@ -22,7 +22,11 @@ export class LoginComponent implements OnInit {
   email = ''; // Bind to email input
   password = ''; // Bind to password input
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit() {
     this.getRandomImage(); // Fetch a random image on initialization
@@ -62,13 +66,12 @@ export class LoginComponent implements OnInit {
 
   // Handle login form submission
   onLoginSubmit() {
-
     this.authService.login(this.email, this.password).subscribe(
       (response) => {
-        if (response && response.token) {
-          localStorage.setItem('authToken', response.token); // Store access token
-          localStorage.setItem('refreshToken', response.refreshToken); // Store refresh token if available
-          this.router.navigate(['/dashboard']); // Redirect to the dashboard or desired route
+        if (response) {
+          sessionStorage.setItem('authToken', response.access_token); // Store access token
+          sessionStorage.setItem('refreshToken', response.refresh_token); // Store refresh token if available
+          this.router.navigate(['/home']); // Redirect to the dashboard or desired route
         } else {
           console.error('Login failed', response);
         }

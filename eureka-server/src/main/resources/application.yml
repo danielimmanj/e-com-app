@@ -11,3 +11,21 @@ eureka:
 spring:
   application:
     name: eureka-server
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      eurekaServer:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,circuitbreakers,prometheus

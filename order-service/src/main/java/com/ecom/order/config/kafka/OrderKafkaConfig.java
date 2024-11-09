@@ -46,6 +46,7 @@ public class OrderKafkaConfig {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         config.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaProperties.getConsumerGroupId());
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, kafkaProperties.getConsumerAutoOffsetReset());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, kafkaProperties.getTrustedPackages());
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerDeserializer.class);
