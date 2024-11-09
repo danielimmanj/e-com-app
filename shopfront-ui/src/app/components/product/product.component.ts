@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./product.component.css'],
 })
 export class ProductComponent {
-  @Input() product!: Product; // Receive a product as input
+  @Input() product!: Product;
 }
