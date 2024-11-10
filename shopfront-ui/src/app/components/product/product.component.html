@@ -7,13 +7,13 @@
     class="absolute top-2 right-2 text-red-500 dark:text-red-400 hover:text-red-600"
     aria-label="Toggle wishlist"
   >
-    <ng-container *ngIf="isInWishlist; else addToWishlist">
-      <!-- Filled Heart Icon for items in wishlist -->
-      <i class="fas fa-heart"></i>
+    <ng-container *ngIf="product.inWishlist; else addToWishlist">
+      <!-- Filled Heart Icon for items in wishlist, with larger size -->
+      <i class="fas fa-heart text-2xl"></i>
     </ng-container>
     <ng-template #addToWishlist>
-      <!-- Empty Heart Icon for items not in wishlist -->
-      <i class="far fa-heart"></i>
+      <!-- Empty Heart Icon for items not in wishlist, with larger size -->
+      <i class="far fa-heart text-2xl"></i>
     </ng-template>
   </button>
 
