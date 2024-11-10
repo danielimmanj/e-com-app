@@ -2,8 +2,6 @@ package com.ecom.user.dto;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 public class EventDto {
     private String name;
