@@ -1,6 +1,23 @@
 <div
-  class="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-md dark:border-gray-700"
+  class="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-md dark:border-gray-700 relative"
 >
+  <!-- Wishlist Icon -->
+  <button
+    (click)="toggleWishlist()"
+    class="absolute top-2 right-2 text-red-500 dark:text-red-400 hover:text-red-600"
+    aria-label="Toggle wishlist"
+  >
+    <ng-container *ngIf="isInWishlist; else addToWishlist">
+      <!-- Filled Heart Icon for items in wishlist -->
+      <i class="fas fa-heart"></i>
+    </ng-container>
+    <ng-template #addToWishlist>
+      <!-- Empty Heart Icon for items not in wishlist -->
+      <i class="far fa-heart"></i>
+    </ng-template>
+  </button>
+
+  <!-- Product Details -->
   <h3 class="font-semibold text-gray-800 dark:text-gray-200">
     {{ product.name }}
   </h3>
