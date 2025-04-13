@@ -1,13 +1,13 @@
 server:
-  port: 8088  # Set the port for the shipping service
+  port: 8089  # Set the port for the shipping service
 
 spring:
   application:
     name: shipping-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/eCommerce
-    username: postgres
-    password: password
+    url: jdbc:postgresql://localhost:5433/eCommerce
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
     hikari:
       schema: shipping_service  # Specify the schema for this microservice
@@ -38,3 +38,21 @@ kafka:
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      shippingService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,circuitbreakers,prometheus

@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'], // Corrected the property name from styleUrl to styleUrls
 })
 export class LoginComponent implements OnInit {
   selectedImage = '';
@@ -16,7 +19,14 @@ export class LoginComponent implements OnInit {
   private readonly unsplashApiUrl = 'https://api.unsplash.com/photos/random';
   private readonly accessKey = 'NCPkQ5Qpd__I5zkTUiUMNLlxCsaXcj6JZ8aD9I-KFRY'; // Replace with your Unsplash API access key
 
-  constructor(private http: HttpClient) {}
+  email = ''; // Bind to email input
+  password = ''; // Bind to password input
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit() {
     this.getRandomImage(); // Fetch a random image on initialization
@@ -52,6 +62,24 @@ export class LoginComponent implements OnInit {
       default:
         return 'nature'; // Default category
     }
+  }
+
+  // Handle login form submission
+  onLoginSubmit() {
+    this.authService.login(this.email, this.password).subscribe(
+      (response) => {
+        if (response) {
+          sessionStorage.setItem('authToken', response.access_token); // Store access token
+          sessionStorage.setItem('refreshToken', response.refresh_token); // Store refresh token if available
+          this.router.navigate(['/home']); // Redirect to the dashboard or desired route
+        } else {
+          console.error('Login failed', response);
+        }
+      },
+      (error) => {
+        console.error('Error during login:', error);
+      },
+    );
   }
 
   // Optionally, you can add a method to change the category

@@ -1,0 +1,22 @@
+<configuration>
+    <!-- Console Appender for terminal output -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender for saving logs to a file -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/home/daniel/Documents/logs/eCommerce/payment-service.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg [%file:%line] [%method] %mdc %n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>  <!-- Ensure logs are shown in terminal -->
+        <appender-ref ref="FILE"/>     <!-- Ensure logs are saved to the file -->
+    </root>
+</configuration>

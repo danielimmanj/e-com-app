@@ -1,13 +1,13 @@
 server:
-  port: 8085  # Set the port for the product service
+  port: 8086  # Set the port for the product service
 
 spring:
   application:
     name: product-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/eCommerce
-    username: postgres
-    password: password
+    url: jdbc:postgresql://localhost:5433/eCommerce
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
     hikari:
       schema: product_service  # Specify the schema for this microservice
@@ -43,3 +43,30 @@ kafka:
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+aws:
+  java:
+    v1:
+      printLocation: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+management:
+  endpoints.web.exposure.include: health,metrics,circuitbreakers,prometheus,actuator
+  endpoint:
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true

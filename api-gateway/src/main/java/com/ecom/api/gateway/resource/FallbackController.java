@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/fallback")
 public class FallbackController {
 
+    @GetMapping("/security-service")
+    public ResponseEntity<String> securityServiceFallback() {
+        return new ResponseEntity<>("Security service is currently unavailable. Please try again later.", HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
     @GetMapping("/user-service")
     public ResponseEntity<String> userServiceFallback() {
         return new ResponseEntity<>("User service is currently unavailable. Please try again later.", HttpStatus.SERVICE_UNAVAILABLE);

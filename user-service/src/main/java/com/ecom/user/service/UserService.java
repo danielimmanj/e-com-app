@@ -22,9 +22,10 @@ public class UserService {
             User savedUser = userRepository.save(user);
             // Produce Kafka event
             EventDto event = new EventDto();
-            event.setUserId(savedUser.getId());
-            event.setUsername(savedUser.getUsername());
+            event.setName(savedUser.getName());
             event.setEmail(savedUser.getEmail());
+            event.setPassword(savedUser.getPassword());
+            event.setRole(savedUser.getRole().name());
             kafkaProducer.sendUserRegisteredEvent(event);
             return savedUser;
         } catch (Exception exception) {
