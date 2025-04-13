@@ -2,7 +2,6 @@ package com.ecom.user.service;
 
 import com.ecom.user.config.kafka.KafkaProducer;
 import com.ecom.user.dto.EventDto;
-import com.ecom.user.dto.UserDto;
 import com.ecom.user.model.User;
 import com.ecom.user.repository.UserRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
