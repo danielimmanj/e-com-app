@@ -7,4 +7,5 @@ export interface Product {
     price: number;
     category: Category;
     imageUrls: string[];
+    inWishlist: boolean;
 }
