@@ -1,5 +1,10 @@
 services:
   - type: static
     name: shopfront-ui
+    env: static
     buildCommand: npm install && npm run build
     staticPublishPath: dist/shopfront-ui
+    redirects:
+      - source: "/*"
+        destination: "/index.html"
+        status: 200
