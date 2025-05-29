@@ -18,6 +18,9 @@ spring:
     properties:
       hibernate:
         default_schema: inventory_service  # Set the schema for Hibernate
+  batch:
+    jdbc:
+      initialize-schema: always
 
 eureka:
   client:
