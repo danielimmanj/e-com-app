@@ -5,7 +5,7 @@ spring:
   application:
     name: product-service
   datasource:
-    url: jdbc:postgresql://localhost:5433/eCommerce
+    url: jdbc:postgresql://postgres:5433/eCommerce
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
@@ -29,7 +29,7 @@ eureka:
     prefer-ip-address: true
 
 kafka:
-  bootstrap-servers: localhost:9092
+  bootstrap-servers: kafka:9092
   consumer:
     group-id: product-service-group
     auto-offset-reset: earliest
