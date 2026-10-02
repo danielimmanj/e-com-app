@@ -11,23 +11,23 @@ spring:
     oauth2:
       client:
         registration:
-#          spring-with-test-scope:
-#            provider: keycloak
-#            client-id: frontend
-#            client-secret: MY8wq06Es6rsW7pnUYta7dtcbeQsDp8q
-#            authorization-grant-type: authorization_code
-#            scope: openid
+          #          spring-with-test-scope:
+          #            provider: keycloak
+          #            client-id: frontend
+          #            client-secret: MY8wq06Es6rsW7pnUYta7dtcbeQsDp8q
+          #            authorization-grant-type: authorization_code
+          #            scope: openid
           keycloak:
-            realm: e-commerce
-            auth-server-url: http://localhost:8081/realms/e-commerce/protocol/openid-connect
+            #            realm: e-commerce
+            #            auth-server-url: http://localhost:8081/realms/e-commerce/protocol/openid-connect
             client-id: frontend
             client-secret: MY8wq06Es6rsW7pnUYta7dtcbeQsDp8q
-            authorization-grant-type: client_credentials
+            authorization-grant-type: authorization_code
             scope: openid
         provider:
           keycloak:
             issuer-uri: http://localhost:8081/realms/e-commerce
-            token-uri: http://localhost:8081/realms/e-commerce/protocol/openid-connect/token
+      #            token-uri: http://localhost:8081/realms/e-commerce/protocol/openid-connect/token
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8081/realms/e-commerce
@@ -35,12 +35,25 @@ spring:
 
   cloud:
     gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://localhost:4200"
-            allowedMethods: "*"
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
             allowedHeaders: "*"
+            allowCredentials: true
 #      default-filters:
 #        - TokenRelay # Ensure the access token is relayed to backend services
       routes:
@@ -111,9 +124,9 @@ spring:
 
         # Route for Product Service
         - id: product-service
-          uri: lb://PRODUCT-SERVICE
+          uri: http://localhost:8086
           predicates:
-            - Path=/products/**, /categories/**
+            - Path=/products,/products/**,/categories,/categories/**
           filters:
             - name: CircuitBreaker
               args:

@@ -43,7 +43,7 @@ public class RequestLoggingAspect {
 
             int statusCode = 200;
             if (result instanceof ResponseEntity) {
-                statusCode = ((ResponseEntity<?>) result).getStatusCodeValue();
+                statusCode = ((ResponseEntity<?>) result).getStatusCode().value();
             }
 
             LoggingUtil.logRequestEnd(logger, method, endpoint, statusCode, duration);
