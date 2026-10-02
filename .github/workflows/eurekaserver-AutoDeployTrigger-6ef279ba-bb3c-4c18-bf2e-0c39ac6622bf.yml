@@ -4,11 +4,11 @@ name: Trigger auto deployment for eurekaserver
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ appmod/java-upgrade-20260517153940 ]
+    branches:
+      - appmod/java-upgrade-20260517153940
     paths:
-    - '**'
-    - '.github/workflows/eurekaserver-AutoDeployTrigger-6ef279ba-bb3c-4c18-bf2e-0c39ac6622bf.yml'
+      - 'eureka-server/**'
+      - '.github/workflows/eurekaserver-AutoDeployTrigger-6ef279ba-bb3c-4c18-bf2e-0c39ac6622bf.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout to the branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Azure Login
         uses: azure/login@v2
@@ -34,16 +34,13 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
-          _targetLabelKey_: _targetLabel_
-          registryUrl: 
+          appSourcePath: ${{ github.workspace }}/eureka-server
+          dockerfilePath: Dockerfile
+          registryUrl: ${{ secrets.EUREKASERVER_REGISTRY_URL }}
           registryUsername: ${{ secrets.EUREKASERVER_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.EUREKASERVER_REGISTRY_PASSWORD }}
           containerAppName: eurekaserver
           resourceGroup: ecom-rg
-          imageToBuild: default/[parameters('containerAppName')]:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
-
-
+          imageToBuild: ${{ secrets.EUREKASERVER_REGISTRY_URL }}/eurekaserver:${{ github.sha }}
+          targetPort: 8761
+          ingress: external
