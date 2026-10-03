@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
 
   # Zookeeper Service
@@ -11,6 +9,12 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    healthcheck:
+      test: ["CMD-SHELL", "cub zk-ready localhost:2181 10"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
     networks:
       - e-commerce
 
@@ -19,19 +23,26 @@ services:
     image: confluentinc/cp-kafka:7.6.1
     container_name: kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-      # Internal Docker communication
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
 
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: ["CMD-SHELL", "cub kafka-ready -b localhost:29092 1 40"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
     networks:
       - e-commerce
 
@@ -47,7 +58,13 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./Schema.txt:/docker-entrypoint-initdb.d/01-schemas.sql:ro
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d eCommerce"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     networks:
       - e-commerce
 
@@ -74,7 +91,7 @@ services:
     command: start-dev --import-realm
 
     environment:
-      KC_HEALTH_ENABLED: true
+      KC_HEALTH_ENABLED: "true"
 
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -123,6 +140,12 @@ services:
     ports:
       - "9200:9200"
 
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -u elastic:elastic 'http://localhost:9200/_cluster/health?wait_for_status=yellow' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
     restart: unless-stopped
 
     networks:
@@ -148,7 +171,8 @@ services:
       - "9600:9600"
 
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
     restart: unless-stopped
 
@@ -169,7 +193,8 @@ services:
       - "5601:5601"
 
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
     restart: unless-stopped
 
@@ -228,6 +253,206 @@ services:
 
     restart: unless-stopped
 
+    networks:
+      - e-commerce
+
+  eureka-server:
+    container_name: eureka-server
+    build:
+      context: ../eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ../api-gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - keycloak
+      - product-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      PRODUCT_SERVICE_URL: http://product-service:8086
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/e-commerce
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/e-commerce
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/e-commerce/protocol/openid-connect/certs
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  security:
+    container_name: security
+    build:
+      context: ../security
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - keycloak
+      - kafka
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/e-commerce
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/e-commerce
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  user-service:
+    container_name: user-service
+    build:
+      context: ../user-service
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eCommerce
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "8084:8084"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  order-service:
+    container_name: order-service
+    build:
+      context: ../order-service
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eCommerce
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "8085:8085"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  product-service:
+    container_name: product-service
+    build:
+      context: ../product-service
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eCommerce
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "8086:8086"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  inventory-service:
+    container_name: inventory-service
+    build:
+      context: ../inventory-service
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eCommerce
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "8087:8087"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  payment-service:
+    container_name: payment-service
+    build:
+      context: ../payment-service
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eCommerce
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID:-}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET:-}
+    ports:
+      - "8088:8088"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  shipping-service:
+    container_name: shipping-service
+    build:
+      context: ../shipping-service
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eCommerce
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "8089:8089"
+    restart: unless-stopped
+    networks:
+      - e-commerce
+
+  shopfront-ui:
+    container_name: shopfront-ui
+    build:
+      context: ../shopfront-ui
+      dockerfile: Dockerfile
+    depends_on:
+      - api-gateway
+      - keycloak
+    ports:
+      - "4200:80"
+    restart: unless-stopped
     networks:
       - e-commerce
 

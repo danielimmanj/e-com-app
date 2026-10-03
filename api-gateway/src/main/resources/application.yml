@@ -21,7 +21,7 @@ spring:
             #            realm: e-commerce
             #            auth-server-url: http://localhost:8081/realms/e-commerce/protocol/openid-connect
             client-id: frontend
-            client-secret: MY8wq06Es6rsW7pnUYta7dtcbeQsDp8q
+            client-secret: MyVMpwM7ZvirC9kvSMFIty6oj30dv3Xv
             authorization-grant-type: authorization_code
             scope: openid
         provider:
@@ -124,7 +124,7 @@ spring:
 
         # Route for Product Service
         - id: product-service
-          uri: http://localhost:8086
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8086}
           predicates:
             - Path=/products,/products/**,/categories,/categories/**
           filters:

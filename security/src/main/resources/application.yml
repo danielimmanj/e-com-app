@@ -17,7 +17,7 @@ spring:
             realm: e-commerce
             auth-server-url: http://localhost:8081/realms/e-commerce/protocol/openid-connect
             client-id: frontend
-            client-secret: MY8wq06Es6rsW7pnUYta7dtcbeQsDp8q
+            client-secret: MyVMpwM7ZvirC9kvSMFIty6oj30dv3Xv
             authorization-grant-type: client_credentials
             scope: openid
         provider:

@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM maven:3.9.9-eclipse-temurin-25 AS build
+FROM maven:3.9.11-eclipse-temurin-25 AS build
 WORKDIR /workspace
 
 COPY .mvn/ .mvn
